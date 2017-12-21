@@ -53,10 +53,10 @@ export default {
     },
     computed: {
         bgColor () {
-            return this.theme === 'dark' ? '#495060' : '#fff';
+            return this.theme === 'dark' ? '#66adc5' : '#fff'; //#495060
         },
         shrinkIconColor () {
-            return this.theme === 'dark' ? '#fff' : '#495060';
+            return this.theme === 'dark' ? '#fff' : '#66adc5';
         }
     },
     methods: {

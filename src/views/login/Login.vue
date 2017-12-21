@@ -73,6 +73,8 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
+    .ivu-card
+        border-radius: 2px;
     .ivu-card-head
         p
             font-size: 18px;
@@ -86,7 +88,7 @@ export default {
         position: relative;
         &-title{
             position: absolute;
-            left: 70px;
+            left: 150px;
             top: 24%;
             .title-image{
                 width: 206px;
