@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import iView from 'iView';
+import iView from 'iview';
 import App from './App';
 import router from './router/index';
 import {appRouter} from './router/router';

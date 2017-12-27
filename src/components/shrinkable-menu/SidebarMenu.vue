@@ -5,7 +5,6 @@
                 <Icon :type="item.icon" :size="iconSize" :key="'icon'+index"></Icon>
                 <span class="layout-text" :key="'text'+index">{{ itemTitle(item) }}</span>
             </MenuItem>
-
             <Submenu v-if="item.children.length > 1" :name="item.name" :key="'sub-menu'+index">
                 <template slot="title">
                     <Icon :type="item.icon" :size="iconSize"></Icon>
