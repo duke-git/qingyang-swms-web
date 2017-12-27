@@ -1,7 +1,12 @@
 import Cookies from 'js-cookie';
+import { loginByUsername } from '@/api/login';
+import Util from '@/utils/util'
 
 const user = {
-    state: {},
+    state: {
+        user: '',
+        token: Util.getToken()
+    },
     mutations: {
         logout (state, vm) {
             Cookies.remove('token');
@@ -17,6 +22,21 @@ const user = {
             if (theme) {
                 localStorage.theme = theme;
             }
+        }
+    },
+    actions: {
+        // 用户名登录
+        LoginByUsername({ commit }, userInfo) {
+          const username = userInfo.username.trim();
+          return new Promise((resolve, reject) => {
+            loginByUsername(username, userInfo.password).then(res => {
+              const data = res.data;
+              Util.setToken(data.token);
+              resolve(data);
+            }).catch(err => {
+              reject(err);
+            })
+          })
         }
     }
 };

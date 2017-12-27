@@ -1,6 +1,6 @@
 <template>
     <div>
-    <h1>項目管理頁面</h1>
+    <h1>项目管理页面</h1>
     </div>
 </template>
 <script>

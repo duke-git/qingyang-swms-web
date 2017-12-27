@@ -39,6 +39,7 @@
 
 <script>
 import Cookies from 'js-cookie';
+import Util from '@/utils/util';
 export default {
     data () {
         return {
@@ -60,12 +61,21 @@ export default {
         handleSubmit () {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
-                    Cookies.set('user', this.form.userName);
-                    Cookies.set('token', 'x-access-token');
-                    this.$store.commit('setAvator', 'http://img.zcool.cn/community/0093345a34c2eca80120ba38fc1fe7.jpg@160w_160h_1c_1e_1o_100sh.jpg');
-                    this.$router.push({
-                        name: 'home'
-                    });
+                    this.$store.dispatch('LoginByUsername', {username: this.form.userName, password: this.form.password}).then((res) => {
+                        if(res.success){
+                            Cookies.set('user', this.form.userName);
+                            this.$store.commit('setAvator', 'http://img.zcool.cn/community/0093345a34c2eca80120ba38fc1fe7.jpg@160w_160h_1c_1e_1o_100sh.jpg');
+                            this.$router.push({name: 'home'});
+                        }else{
+                            let errMsg = Util.getErrorMsg(res.code);
+                            this.$Message.error({content: errMsg});
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                        this.$Message.error({content: err.message});
+                    })
+                }else {
+                    return false;
                 }
             });
         }

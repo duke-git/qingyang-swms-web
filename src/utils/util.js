@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 let util = {
     title: function (title) {
         title = title || 'swms';
@@ -246,6 +248,28 @@ let util = {
         if (notHandle) {
             next();
         }
+    },
+    getToken: function() {
+        Cookies.get("token")
+    },
+    setToken: function(token) {
+        Cookies.set("token", token)
+    },
+    removeToken: function() {
+        Cookies.remove("token")
+    },
+    getErrorMsg: function (code, placeholderA='', placeholderB='') {
+        var errorCodeObj = {
+            10001: "用户不存在",
+            10002: "密码错误",
+            10003: "用户验证失败",
+            10004: `获取详情失败，记录${placeholderA}不存在`,
+            10005: "用户验证失败",
+            10006: "用户验证失败",
+            10007: "用户验证失败",
+            10008: "用户验证失败",
+        };
+        return errorCodeObj[code];
     }
 };
 
