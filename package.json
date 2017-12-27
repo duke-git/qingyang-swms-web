@@ -5,15 +5,15 @@
   "author": "dudaodong@gmail.com",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --content-base ./ --open --inline --compress --config build/webpack.dev.config.js",
+    "dev": "set NODE_ENV='dev' && webpack-dev-server --content-base ./ --open --inline --compress --config build/webpack.dev.config.js",
     "start": "npm run dev",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
-    "build": "webpack --progress --hide-modules --config build/webpack.prod.config.js"
+    "build": "set NODE_ENV='production' && webpack --progress --hide-modules --config build/webpack.prod.config.js"
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "iview": "^2.7.4",
+    "iview": "^2.8.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

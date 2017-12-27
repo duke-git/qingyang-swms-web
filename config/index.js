@@ -1,14 +1,14 @@
-var path = require('path');
+import Env from './env';
 
-module.exports = {
+let config = {
+    env: Env,
     production: {
         env: "production",
-        port: 8090,
-        baseURL: "http://127.0.0.1"
+        baseURL: "http://127.0.0.1:8090"
     },
     dev: {
-        env: "development",
-        port: 8090,
-        baseURL: "http://127.0.0.1"
+        env: "dev",
+        baseURL: "http://127.0.0.1:8090"
     }
 };
+export default config;

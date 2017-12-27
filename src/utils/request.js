@@ -1,27 +1,28 @@
 import axios from 'axios';
 import Util from './util';
+import config from '../../config/index';
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: "http://127.0.0.1:8090",//process.env.BASE_API,
-  timeout: 15000
-})
+  baseURL: config[config.env]["baseURL"],
+  timeout: 5000
+});
 
 // request拦截器
 service.interceptors.request.use(config => {
     config.headers['X-Access-Token'] = Util.getToken();
-    return config
+    return config;
 }, error => {
-    console.log(error)
-    Promise.reject(error)
-})
+    console.log(error);
+    Promise.reject(error);
+});
 
 // respone拦截器
 service.interceptors.response.use(
   response => {return Promise.resolve(response)},
   error => {
-    console.log('err' + error)
-    return Promise.reject(error)
-  })
+    console.log('err' + error);
+    return Promise.reject(error);
+});
 
-export default service
+export default service;

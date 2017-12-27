@@ -73,7 +73,7 @@ export const appRouter = [
         title: '项目管理',
         component: Main,
         children: [
-            { path: 'project-purchase', title: '项目购买', name: 'ProjectPurchase', icon: 'arrow-move', component: resolve => { require(['@/views/project/ProjectPurchase.vue'], resolve); } },
+            { path: 'project-purchase', title: '项目管理', name: 'ProjectManage', icon: 'arrow-move', component: resolve => { require(['@/views/project/ProjectPurchase.vue'], resolve); } },
         ]
     }
 ];
