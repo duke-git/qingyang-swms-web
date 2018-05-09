@@ -2,7 +2,7 @@
     <div class="login" @keydown.enter="handleSubmit">
         <div class="login-title">
             <!--<div class="title-image"></div>-->
-            <span class="title-text">通用项目管理平台</span>
+            <span class="title-text">项目管理平台</span>
         </div>
         <div class="login-con">
             <Card :bordered="false">
@@ -40,6 +40,7 @@
 <script>
 import Cookies from 'js-cookie';
 import Util from '@/utils/util';
+let routes = [];
 export default {
     data () {
         return {
@@ -54,7 +55,7 @@ export default {
                 password: [
                     { required: true, message: '密码不能为空', trigger: 'blur' }
                 ]
-            }
+            },
         };
     },
     methods: {
@@ -64,6 +65,7 @@ export default {
                     this.$store.dispatch('LoginByUsername', {username: this.form.userName, password: this.form.password}).then((res) => {
                         if(res.success){
                             Cookies.set('user', this.form.userName);
+                            this.login(res);
                             this.$store.commit('setAvator', 'http://img.zcool.cn/community/0093345a34c2eca80120ba38fc1fe7.jpg@160w_160h_1c_1e_1o_100sh.jpg');
                             this.$router.push({name: 'home'});
                         }else{
@@ -78,7 +80,11 @@ export default {
                     return false;
                 }
             });
-        }
+        },
+        login(data){
+            let menus = data.info.menus;
+            sessionStorage.setItem("menus", JSON.stringify(menus));
+        },
     }
 };
 </script>
@@ -92,7 +98,7 @@ export default {
     .login{
         width: 100%;
         height: 100%;
-        background-image: url('../../assets/images/login-background.jpg');
+        background-image: url('../../assets/images/bg.jpg');
         background-size: cover;
         background-position: center;
         position: relative;
@@ -122,6 +128,8 @@ export default {
             top: 50%;
             transform: translateY(-60%);
             width: 350px;
+            opacity: 0.9;
+
             &-header{
                 font-size: 16px;
                 font-weight: 300;

@@ -1,4 +1,4 @@
-import {otherRouter, appRouter} from '@/router/router';
+import routers from '@/router/router';
 import Util from '@/utils/util';
 import Cookies from 'js-cookie';
 import Vue from 'vue';
@@ -25,11 +25,8 @@ const app = {
             }
         ], // 面包屑数组
         menuList: [],
-        routers: [
-            otherRouter,
-            ...appRouter
-        ],
-        tagsList: [...otherRouter.children],
+        routers: routers,
+        tagsList: routers[0].children,
         messageCount: 0,
         dontCache: [] // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
     },
@@ -38,47 +35,26 @@ const app = {
             state.tagsList.push(...list);
         },
         updateMenulist (state) {
-            let accessCode = parseInt(Cookies.get('access'));
             let menuList = [];
+            let menus = sessionStorage.getItem("menus");
+            let appRouter = routers.filter(item => {
+                return item.name != 'login' && item.name != 'root';
+            });
+            console.log('menus', menus);
+            if(menus) {
+                let menu = JSON.parse(menus);
+                appRouter = appRouter.filter(item => {
+                    return menu.includes(item.path);
+                });
+            }
             appRouter.forEach((item, index) => {
-                if (item.access !== undefined) {
-                    if (Util.showThisRoute(item.access, accessCode)) {
-                        if (item.children.length === 1) {
-                            menuList.push(item);
-                        } else {
-                            let len = menuList.push(item);
-                            let childrenArr = [];
-                            childrenArr = item.children.filter(child => {
-                                if (child.access !== undefined) {
-                                    if (child.access === accessCode) {
-                                        return child;
-                                    }
-                                } else {
-                                    return child;
-                                }
-                            });
-                            menuList[len - 1].children = childrenArr;
-                        }
-                    }
+                if (item.children.length === 1) {
+                    menuList.push(item);
                 } else {
-                    if (item.children.length === 1) {
-                        menuList.push(item);
-                    } else {
-                        let len = menuList.push(item);
-                        let childrenArr = [];
-                        childrenArr = item.children.filter(child => {
-                            if (child.access !== undefined) {
-                                if (Util.showThisRoute(child.access, accessCode)) {
-                                    return child;
-                                }
-                            } else {
-                                return child;
-                            }
-                        });
-                        let handledItem = JSON.parse(JSON.stringify(menuList[len - 1]));
-                        handledItem.children = childrenArr;
-                        menuList.splice(len - 1, 1, handledItem);
-                    }
+                    let len = menuList.push(item);
+                    let handledItem = JSON.parse(JSON.stringify(menuList[len - 1]));
+                    handledItem.children = item.children;
+                    menuList.splice(len - 1, 1, handledItem);
                 }
             });
             state.menuList = menuList;
@@ -158,7 +134,7 @@ const app = {
             localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);
         },
         setOpenedList (state) {
-            state.pageOpenedList = localStorage.pageOpenedList ? JSON.parse(localStorage.pageOpenedList) : [otherRouter.children[0]];
+            state.pageOpenedList = localStorage.pageOpenedList ? JSON.parse(localStorage.pageOpenedList) : [routers[0].children[0]];
         },
         setCurrentPath (state, pathArr) {
             state.currentPath = pathArr;
